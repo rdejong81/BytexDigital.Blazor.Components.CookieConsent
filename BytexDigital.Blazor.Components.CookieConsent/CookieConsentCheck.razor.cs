@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 
 namespace BytexDigital.Blazor.Components.CookieConsent
 {
@@ -125,7 +125,14 @@ namespace BytexDigital.Blazor.Components.CookieConsent
 
             preferences ??= await CookieConsentService.GetPreferencesAsync();
 
-            IsAllowed = preferences.AllowedCategories.Contains(RequiredCategory);
+            if (RequiredCategory != null)
+            {
+                IsAllowed = preferences.AllowedCategories.Contains(RequiredCategory);
+            }
+            else if (RequiredService != null)
+            {
+                IsAllowed = preferences.AllowedServices.Contains(RequiredService);
+            }
 
             StateHasChanged();
         }
